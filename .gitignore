@@ -15,12 +15,9 @@
 *.tsv
 *.tsv.gz
 *.xlsx
-*.seg
-*.fam
-*.log
-*.data
 
 kinship_structure/result_npys/
+kinship_structure/ped-sim/arti_outputs/
 kinship_structure/ped-sim/outputs/
 kinship_structure/run_pedsim_matrix_0123_BLG_ver.ipynb
 
