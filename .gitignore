@@ -1,0 +1,47 @@
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+# Local History for Visual Studio Code
+.history/
+
+# Private Files
+*.json
+*.csv
+*.csv.gz
+*.tsv
+*.tsv.gz
+*.xlsx
+*.seg
+*.fam
+*.log
+*.data
+
+kinship_structure/result_npys/
+kinship_structure/ped-sim/outputs/
+kinship_structure/run_pedsim_matrix_0123_BLG_ver.ipynb
+
+kinship_structure/__pycache__/
+
+
+2nd_degree_classify/validation_pedsim/pedsim_data/
+
+
+2nd_degree_classify/__pycache__/
+
+# Byte-compiled / optimized / DLL files
+
+**/*.py[cod]
+**/*$py.class
+
+# Installer logs
+**/pip-log.txt
+**/pip-delete-this-directory.txt
+
+# Jupyter Notebook
+**/.ipynb_checkpoints
+
+

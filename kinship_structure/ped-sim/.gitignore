@@ -1,0 +1,6 @@
+.deps
+*.o
+.*.swp
+ped-sim
+tags
+refined_mf*.simmap
