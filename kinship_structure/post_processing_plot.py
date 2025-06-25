@@ -94,7 +94,7 @@ def plot_results_sep(df, xticks, xlabel, ylabel, ref_value = None, figtype = 'vi
     return fig
 
 def plot_results_sep_new(df, xticks, xlabel, ylabel, ref_value = None, figtype = 'violin', ref = False, title = ''
-                 ,ylim = (0.15,0.65), ttest = False):
+                 ,ylim = (0.15,0.65), ttest = False, test_method = 'ttest'):
     plt.rcParams['axes.linewidth'] = 2  
     plt.rcParams['xtick.major.width'] = 2 
     plt.rcParams['ytick.major.width'] = 2  
@@ -157,7 +157,12 @@ def plot_results_sep_new(df, xticks, xlabel, ylabel, ref_value = None, figtype =
     
     if ttest:
         for j in range(1, len(df)):
-            _, ttest_p_value = stats.ttest_ind(df[j], df[0])
+            if test_method == "ttest":
+                tval, ttest_p_value = stats.ttest_ind(df[j], df[0])
+                symbol = 't'
+            elif test_method == "mlu":
+                tval, ttest_p_value = stats.mannwhitneyu(df[j], df[0])
+                symbol = 'u'
             
             if ttest_p_value<0.05:
                 p_str = '*'
@@ -173,6 +178,9 @@ def plot_results_sep_new(df, xticks, xlabel, ylabel, ref_value = None, figtype =
                 ax1.text(j, 0.9*ylim[1], p_str, fontsize=15, ha='center', va='center')
             # else:
             #     ax2.text(0, 0.9*ylim[1], p_str, fontsize=15, ha='center', va='center')
+            
+            print(f"{symbol} = {tval}, p = {ttest_p_value}, n{j},n0 = {len(df[j])},{len(df[0])}")
+    
     
     plt.show()
     return fig
@@ -466,7 +474,8 @@ def summarize_trees_simple(tree_list, skip = False, force_titles = []):
     plt.show()
     return fig
 
-def plot_bar_label_max(df, xtick, xlabel = 'population range', ylabel='pedigree centrality range', quantity = 'ratio matrix similarity>0.4'):
+def plot_bar_label_max(df, xtick, xlabel = 'population range', ylabel='pedigree centrality range', quantity = 'ratio matrix similarity>0.4'
+                       , test_method = 'ttest'):
 
     plt.rcParams.update({'pdf.fonttype': 42})
     plt.rcParams.update({'ps.fonttype': 42})
@@ -492,7 +501,12 @@ def plot_bar_label_max(df, xtick, xlabel = 'population range', ylabel='pedigree 
     peak_pos = np.argmax(means)
     for j in range(df.shape[1]):
         if j != peak_pos:
-            _, p_value = stats.ttest_ind(df[:,peak_pos], df[:,j])
+            if test_method == "ttest":
+                tval, p_value = stats.ttest_ind(df[:,peak_pos], df[:,j])
+                symbol = 't'
+            elif test_method == "mlu":
+                tval, p_value = stats.mannwhitneyu(df[:,peak_pos], df[:,j])
+                symbol = 'u'
             if p_value<0.05:
                 p_str = '*'
             if p_value<0.01:
@@ -504,6 +518,8 @@ def plot_bar_label_max(df, xtick, xlabel = 'population range', ylabel='pedigree 
             if p_value>0.05:
                 p_str = 'ns'
             plt.text(j, means[j]+0.01, p_str, ha='center', va='bottom')
+            
+            print(f"{symbol} = {tval}, p = {p_value}, n{j},n{peak_pos} = {len(df[:,peak_pos])},{len(df[:,j])}")
 
     plt.show()
     
